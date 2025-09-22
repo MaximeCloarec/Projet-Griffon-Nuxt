@@ -3,8 +3,13 @@
         <div class="heroContainer">
             <h1>Rejoinez le Projet Griffon</h1>
         </div>
-        <div class="inscriptionContainer">
-            <InscriptionForm />
+        <div class="formContainer">
+            <div class="inscriptionContainer">
+                <InscriptionForm />
+            </div>
+            <div class="connexionContainer">
+                <ConnexionForm />
+            </div>
         </div>
     </div>
 </template>
@@ -41,5 +46,15 @@ h1 {
     height: 500px;
     width: 75%;
     margin: 5vw;
+}
+
+.formContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr ;
+    width: 100%;
+}
+
+.inscriptionContainer,.connexionContainer{
+    margin: 50px;
 }
 </style>
