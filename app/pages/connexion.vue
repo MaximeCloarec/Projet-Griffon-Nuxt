@@ -3,25 +3,22 @@
         <div class="heroContainer">
             <h1>Rejoinez le Projet Griffon</h1>
         </div>
-        <div>
-            <UTabs
-                :items="items"
-                variant="pill"
-                size="md"
-                class="gap-4 w-full"
-            >
+
+        <UContainer fluid class="w-xl h-96">
+            <UTabs :items="items" variant="pill" size="md" class="gap-4 w-full">
                 <template #inscription>
-                    <div class="inscriptionContainer">
+                    <UContainer fluid class="w-xl h-96">
                         <InscriptionForm />
-                    </div>
+                    </UContainer>
                 </template>
+
                 <template #connexion>
-                    <div class="connexionContainer">
+                    <UContainer fluid class="w-xl h-96">
                         <ConnexionForm />
-                    </div>
+                    </UContainer>
                 </template>
             </UTabs>
-        </div>
+        </UContainer>
     </div>
 </template>
 
@@ -70,13 +67,4 @@ h1 {
     margin: 5vw;
 }
 
-.formContainer {
-    display: flex;
-    justify-content: center;
-}
-
-.inscriptionContainer,
-.connexionContainer {
-    margin: 50px;
-}
 </style>

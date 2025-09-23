@@ -30,6 +30,14 @@ defineProps({
 </script>
 
 <style scoped>
+button {
+    width: 165px;
+    height: 48px;
+    background-color: #0d80f2;
+    border-radius: 8px;
+    margin: 10px;
+    box-shadow: 2px 2px 5px white;
+}
 .card {
     border: solid 1px;
     border-radius: 45px;
@@ -63,6 +71,4 @@ p {
     font: 16px;
     margin: 10px;
 }
-
-
 </style>
