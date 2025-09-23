@@ -3,18 +3,40 @@
         <div class="heroContainer">
             <h1>Rejoinez le Projet Griffon</h1>
         </div>
-        <div class="formContainer">
-            <div class="inscriptionContainer">
-                <InscriptionForm />
-            </div>
-            <div class="connexionContainer">
-                <ConnexionForm />
-            </div>
+        <div>
+            <UTabs
+                :items="items"
+                variant="pill"
+                size="md"
+                class="gap-4 w-full"
+            >
+                <template #inscription>
+                    <div class="inscriptionContainer">
+                        <InscriptionForm />
+                    </div>
+                </template>
+                <template #connexion>
+                    <div class="connexionContainer">
+                        <ConnexionForm />
+                    </div>
+                </template>
+            </UTabs>
         </div>
     </div>
 </template>
 
-<script></script>
+<script setup lang="ts">
+const items = [
+    {
+        label: "Inscription",
+        slot: "inscription" as const,
+    },
+    {
+        label: "Connexion",
+        slot: "connexion" as const,
+    },
+];
+</script>
 <style scoped>
 .mainContainer {
     display: flex;
@@ -49,12 +71,12 @@ h1 {
 }
 
 .formContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr ;
-    width: 100%;
+    display: flex;
+    justify-content: center;
 }
 
-.inscriptionContainer,.connexionContainer{
+.inscriptionContainer,
+.connexionContainer {
     margin: 50px;
 }
 </style>

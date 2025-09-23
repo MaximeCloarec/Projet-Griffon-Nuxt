@@ -1,5 +1,5 @@
 <template>
-    <h2>Inscription</h2>
+    <USeparator label="Inscription" />
     <UForm
         :validate="validate"
         :state="state"
