@@ -21,24 +21,10 @@
             borderColor="#ffc404"
         >
             <template #extra>
-                <UContainer>
-                    <UForm
-                        :state="state"
-                        :validate="validate"
-                        @submit="onSubmit"
-                        size="xl"
-                        class="flex"
-                    >
-                        <UFormField name="email">
-                            <UInput size="xl" />
-                        </UFormField>
-                        <UButton
-                            label="Rejoindre"
-                            color="secondary"
-                            size="xl"
-                        />
-                    </UForm>
-                </UContainer>
+                    <UFieldGroup >
+                        <UInput color="neutral" variant="outline" placeholder="Entre code salle" size="xl" />
+                        <UButton label="Rejoindre" color="secondary" size="xl"/>
+                    </UFieldGroup>
             </template>
         </CardIndex>
     </div>
@@ -47,15 +33,6 @@
 <script></script>
 
 <style scoped>
-/* button {
-    width: 165px;
-    height: 48px;
-    background-color: #0d80f2;
-    border-radius: 8px;
-    margin: 10px;
-    box-shadow: 2px 2px 5px white;
-} */
-
 .cardContainer {
     display: flex;
     flex-direction: column;
