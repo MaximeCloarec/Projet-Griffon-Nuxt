@@ -4,7 +4,7 @@
             <h1>Rejoinez le Projet Griffon</h1>
         </div>
 
-        <UContainer fluid class="w-xl h-96">
+        <UContainer fluid class="w-full h-full">
             <UTabs :items="items" variant="pill" size="md" class="gap-4 w-full">
                 <template #inscription>
                     <UContainer fluid class="w-xl h-96">

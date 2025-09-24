@@ -21,14 +21,24 @@
             borderColor="#ffc404"
         >
             <template #extra>
-                <div class="inputContainer">
-                    <input
-                        class="inputPlayer"
-                        type="text"
-                        placeholder="Entrez code lobby"
-                    />
-                    <button>Rejoindre</button>
-                </div>
+                <UContainer>
+                    <UForm
+                        :state="state"
+                        :validate="validate"
+                        @submit="onSubmit"
+                        size="xl"
+                        class="flex"
+                    >
+                        <UFormField name="email">
+                            <UInput size="xl" />
+                        </UFormField>
+                        <UButton
+                            label="Rejoindre"
+                            color="secondary"
+                            size="xl"
+                        />
+                    </UForm>
+                </UContainer>
             </template>
         </CardIndex>
     </div>
@@ -37,29 +47,28 @@
 <script></script>
 
 <style scoped>
-
-button {
+/* button {
     width: 165px;
     height: 48px;
     background-color: #0d80f2;
     border-radius: 8px;
     margin: 10px;
     box-shadow: 2px 2px 5px white;
-}
+} */
 
-.cardContainer{
+.cardContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
 }
 
-.inputContainer {
+/* .inputContainer {
     display: flex;
     background-color: white;
     width: fit-content;
     border-radius: 20px;
-}
+} */
 
 .inputPlayer {
     color: black;
