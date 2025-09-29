@@ -4,15 +4,15 @@
         :validate="validate"
         :state="state"
         class="space-y-4 ls"
-        @submit="onSubmit"
+        @submit="registerUser"
     >
-        <UFormField label="Pseudo" name="nickname">
+        <!-- <UFormField label="Pseudo" name="nickname">
             <UInput
                 placeholder="Entrez votre pseudo"
                 class="w-full"
                 v-model="state.nickname"
             />
-        </UFormField>
+        </UFormField> -->
         <UFormField label="Email" name="email">
             <UInput
                 placeholder="Entrez votre email"
@@ -37,7 +37,7 @@ import type { FormError, FormSubmitEvent } from "@nuxt/ui";
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const state = reactive({
-    nickname: undefined,
+    // nickname: undefined,
     email: undefined,
     password: undefined,
 });
@@ -47,7 +47,7 @@ const validate = (state: any): FormError[] => {
     // Check if fields are empty
     if (!state.email) errors.push({ name: "email", message: "Required" });
     if (!state.password) errors.push({ name: "password", message: "Required" });
-    if (!state.nickname) errors.push({ name: "nickname", message: "Required" });
+    // if (!state.nickname) errors.push({ name: "nickname", message: "Required" });
 
     //Check email format
     if (state.email && !regexEmail.test(state.email))
@@ -63,14 +63,44 @@ const validate = (state: any): FormError[] => {
     return errors;
 };
 
-
-
 const toast = useToast();
-function onSubmit(event: FormSubmitEvent<typeof state>) {
-    toast.add({
-        title: "Success",
-        description: `Votre compte ${state.nickname} a été créé avec succès !`,
-        color: "success",
-    })
+
+async function registerUser() {
+    try {
+        const response = await $fetch.raw(
+            "http://192.168.1.28/api/user/register",
+            {
+                method: "POST",
+                body: { email: state.email, password: state.password },
+            }
+        );
+
+        // Vérifie le code status
+        if (response.status === 201) {
+            toast.add({
+                title: "Succès",
+                description: `Votre compte ${state.email} a été créé avec succès !`,
+                color: "success",
+            });
+
+            // Réinitialiser les champs après succès
+            state.email = undefined;
+            state.password = undefined;
+        } else {
+            toast.add({
+                title: "Erreur",
+                description: `Impossible de créer le compte. Code: ${response.status}`,
+                color: "error",
+            });
+        }
+    } catch (error: any) {
+        // Si backend renvoie une erreur JSON, tu peux la lire
+        const message = error?.data?.message || "Une erreur est survenue";
+        toast.add({
+            title: "Erreur",
+            description: message,
+            color: "error",
+        });
+    }
 }
 </script>

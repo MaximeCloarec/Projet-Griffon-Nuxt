@@ -1,10 +1,11 @@
 <template>
     <UApp :toaster="{ position: 'top-center' }">
         <NavBar />
-        <NuxtPage />
+        <UMain>
+            <NuxtPage />
+        </UMain>
         <Footer />
     </UApp>
 </template>
 
-<script setup>
-</script>
+<script setup></script>
