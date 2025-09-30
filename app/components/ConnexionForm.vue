@@ -1,10 +1,6 @@
 <template>
     <USeparator label="Connexion" />
-    <UForm
-        :validate="validate"
-        :state="state"
-        class="space-y-4 ls"
-    >
+    <UForm :validate="validate" :state="state" class="space-y-4 ls" @submit="login">
         <UFormField label="Email" name="email">
             <UInput
                 placeholder="Entrez votre email"
@@ -44,5 +40,21 @@ const validate = (state: any): FormError[] => {
     if (state.email && !regexEmail.test(state.email))
         errors.push({ name: "email", message: "Invalid email Format" });
     return errors;
+};
+
+const login = async () => {
+    const { data, error, pending } = await useFetch("http://192.168.1.28/api/user/login", {
+        method: "POST",
+        body: {
+            email: state.email,
+            password: state.password,
+        },
+    });
+
+    if (error.value) {
+        console.error("Erreur de connexion :", error.value);
+    } else {
+        console.log("Utilisateur connecté :", data.value, pending.value);
+    }
 };
 </script>
