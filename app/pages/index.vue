@@ -40,13 +40,6 @@
     justify-content: flex-end;
 }
 
-/* .inputContainer {
-    display: flex;
-    background-color: white;
-    width: fit-content;
-    border-radius: 20px;
-} */
-
 .inputPlayer {
     color: black;
     border-radius: 20px;

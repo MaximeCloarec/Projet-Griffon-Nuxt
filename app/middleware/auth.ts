@@ -1,10 +1,8 @@
-function isAuthenticated(): boolean {
-    return false;
-}
+const userStore = useUserStore();
 // ---cut---
 export default defineNuxtRouteMiddleware((to, from) => {
     // isAuthenticated() is an example method verifying if a user is authenticated
-    if (isAuthenticated() === false) {
+    if (userStore.isLoggedIn === false) {
         return navigateTo("/connexion");
     }
 });

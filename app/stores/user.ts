@@ -4,7 +4,8 @@ export const useUserStore = defineStore("user", {
     state: () => ({
         id: null as number | null,
         email: "" as string,
-        token: "" as string, // on stocke le JWT renvoyé par le backend
+        token: "" as string,
+        createdAt: null as Date | null,
         createdGames: [] as string[],
         joinedGames: [] as string[],
     }),
@@ -14,10 +15,14 @@ export const useUserStore = defineStore("user", {
     },
 
     actions: {
-        setUser(user: { id: number; email: string; token: string }) {
+        setUser(
+            token: string,
+            user: { id: number; email: string; createdAt: Date }
+        ) {
+            this.token = token;
             this.id = user.id;
             this.email = user.email;
-            this.token = user.token;
+            this.createdAt = user.createdAt;
         },
 
         logout() {

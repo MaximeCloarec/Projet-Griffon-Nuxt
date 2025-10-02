@@ -1,6 +1,11 @@
 <template>
     <USeparator label="Connexion" />
-    <UForm :validate="validate" :state="state" class="space-y-4 ls" @submit="login">
+    <UForm
+        :validate="validate"
+        :state="state"
+        class="space-y-4 ls"
+        @submit="login"
+    >
         <UFormField label="Email" name="email">
             <UInput
                 placeholder="Entrez votre email"
@@ -20,12 +25,24 @@
     </UForm>
 </template>
 <script setup lang="ts">
-import type { FormError, FormSubmitEvent } from "@nuxt/ui";
+import type { FormError } from "@nuxt/ui";
+
+interface LoginResponse {
+    message: string;
+    token: string;
+    user: {
+        id: number;
+        email: string;
+        createdAt: Date;
+    };
+}
+
+const toast = useToast();
 
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const state = reactive({
-    nickname: undefined,
+    // nickname: undefined,
     email: undefined,
     password: undefined,
 });
@@ -43,18 +60,35 @@ const validate = (state: any): FormError[] => {
 };
 
 const login = async () => {
-    const { data, error, pending } = await useFetch("http://192.168.1.28/api/user/login", {
-        method: "POST",
-        body: {
-            email: state.email,
-            password: state.password,
-        },
-    });
+    const userStore = useUserStore();
+    const { data, error, pending } = await useFetch<LoginResponse>(
+        "http://localhost:3000/api/login",
+        {
+            method: "POST",
+            body: {
+                email: state.email,
+                password: state.password,
+            },
+        }
+    );
 
     if (error.value) {
+        toast.add({
+            title: "Erreur",
+            description: `Impossible de créer le compte. Code: ${error.value}`,
+            color: "error",
+        });
         console.error("Erreur de connexion :", error.value);
-    } else {
+    }
+    if (data.value) {
+        toast.add({
+            title: "Succès",
+            description: `${data.value?.message}`,
+            color: "success",
+        });
+        userStore.setUser(data.value?.token, data.value?.user);
         console.log("Utilisateur connecté :", data.value, pending.value);
+        setTimeout(async () => await navigateTo("/account"), 2000);
     }
 };
 </script>

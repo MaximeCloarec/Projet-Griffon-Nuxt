@@ -68,7 +68,7 @@ const toast = useToast();
 async function registerUser() {
     try {
         const response = await $fetch.raw(
-            "http://192.168.1.28/api/user/register",
+            "http://localhost:3000/api/register",
             {
                 method: "POST",
                 body: { email: state.email, password: state.password },

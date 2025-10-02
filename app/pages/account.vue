@@ -19,7 +19,13 @@
 </template>
 
 <script lang="ts" setup>
-const userName = ref("Jhon Doe");
+definePageMeta({
+    middleware: "auth",
+});
+
+const userStore = useUserStore();
+
+const userName = ref(userStore.email);
 </script>
 
 <style></style>
