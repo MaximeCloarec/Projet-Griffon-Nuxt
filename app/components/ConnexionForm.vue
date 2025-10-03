@@ -61,34 +61,32 @@ const validate = (state: any): FormError[] => {
 
 const login = async () => {
     const userStore = useUserStore();
-    const { data, error, pending } = await useFetch<LoginResponse>(
-        "http://localhost:3000/api/login",
-        {
-            method: "POST",
-            body: {
-                email: state.email,
-                password: state.password,
-            },
-        }
-    );
-
-    if (error.value) {
+    try {
+        const data = await $fetch<LoginResponse>(
+            "http://localhost:3000/api/login",
+            {
+                method: "POST",
+                body: {
+                    email: state.email,
+                    password: state.password,
+                },
+            }
+        );
+        toast.add({
+            title: "Succès",
+            description: `${data.message}`,
+            color: "success",
+        });
+        userStore.setUser(data.token, data.user);
+        console.log("Utilisateur connecté :", data);
+        setTimeout(async () => await navigateTo("/account"), 2000);
+    } catch (error: any) {
         toast.add({
             title: "Erreur",
             description: `Impossible de créer le compte. Code: ${error.value}`,
             color: "error",
         });
         console.error("Erreur de connexion :", error.value);
-    }
-    if (data.value) {
-        toast.add({
-            title: "Succès",
-            description: `${data.value?.message}`,
-            color: "success",
-        });
-        userStore.setUser(data.value?.token, data.value?.user);
-        console.log("Utilisateur connecté :", data.value, pending.value);
-        setTimeout(async () => await navigateTo("/account"), 2000);
     }
 };
 </script>

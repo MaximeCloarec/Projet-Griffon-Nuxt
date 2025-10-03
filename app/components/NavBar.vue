@@ -7,6 +7,7 @@
                 Griffon
             </h1>
         </NuxtLink>
+        <NuxtLink to="/account">Compte</NuxtLink>
         <NuxtLink to="/connexion" class="iconContainer">
             <Icon name="my-icon:logo-account" size="4rem" />
         </NuxtLink>
