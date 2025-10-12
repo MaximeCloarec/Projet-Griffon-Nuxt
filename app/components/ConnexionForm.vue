@@ -26,44 +26,31 @@
 </template>
 <script setup lang="ts">
 import type { FormError } from "@nuxt/ui";
-
-interface LoginResponse {
-    message: string;
-    token: string;
-    user: {
-        id: number;
-        email: string;
-        createdAt: Date;
-    };
-}
+import type { LoginResponse } from "@/utils/types";
 
 const toast = useToast();
+const userStore = useUserStore();
 
 const regexEmail = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
 const state = reactive({
-    // nickname: undefined,
-    email: undefined,
-    password: undefined,
+    email: "",
+    password: "",
 });
 
 const validate = (state: any): FormError[] => {
     const errors = [];
-    // Check if fields are empty
     if (!state.email) errors.push({ name: "email", message: "Required" });
     if (!state.password) errors.push({ name: "password", message: "Required" });
-
-    //Check email format
     if (state.email && !regexEmail.test(state.email))
         errors.push({ name: "email", message: "Invalid email Format" });
     return errors;
 };
 
 const login = async () => {
-    const userStore = useUserStore();
     try {
         const data = await $fetch<LoginResponse>(
-            "http://localhost:3000/api/login",
+            "http://localhost:3001/api/users/login",
             {
                 method: "POST",
                 body: {
@@ -72,21 +59,24 @@ const login = async () => {
                 },
             }
         );
+
+        userStore.setUser(data.token, data.user);
         toast.add({
             title: "Succès",
             description: `${data.message}`,
             color: "success",
         });
-        userStore.setUser(data.token, data.user);
-        console.log("Utilisateur connecté :", data);
-        setTimeout(async () => await navigateTo("/account"), 2000);
+        console.log(data);
+        await navigateTo("/account");
     } catch (error: any) {
         toast.add({
             title: "Erreur",
-            description: `Impossible de créer le compte. Code: ${error.value}`,
+            description: `Impossible de se connecter (${
+                error?.status || "??"
+            })`,
             color: "error",
         });
-        console.error("Erreur de connexion :", error.value);
+        console.error("Erreur de connexion :", error);
     }
 };
 </script>

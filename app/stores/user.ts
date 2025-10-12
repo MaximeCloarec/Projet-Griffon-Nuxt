@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import type { User, Game } from "@/utils/types";
 
 export const useUserStore = defineStore("user", {
     state: () => ({
@@ -6,31 +7,26 @@ export const useUserStore = defineStore("user", {
         email: "" as string,
         token: "" as string,
         createdAt: null as Date | null,
-        createdGames: [] as string[],
-        joinedGames: [] as string[],
+        createdGames: [] as Game[],
+        joinedGames: [] as Game[],
     }),
 
     getters: {
-        isLoggedIn: (state) => !!state.token, // renvoie true si on a un token
+        isLoggedIn: (state) => !!state.token,
     },
 
     actions: {
-        setUser(
-            token: string,
-            user: { id: number; email: string; createdAt: Date }
-        ) {
+        setUser(token: string, user: User) {
             this.token = token;
             this.id = user.id;
             this.email = user.email;
             this.createdAt = user.createdAt;
+            this.createdGames = user.createdGames || [];
+            this.joinedGames = user.joinedGames || [];
         },
 
         logout() {
-            this.id = null;
-            this.email = "";
-            this.token = "";
-            this.createdGames = [];
-            this.joinedGames = [];
+            this.$reset(); // plus propre que tout réinitialiser manuellement
         },
     },
 });

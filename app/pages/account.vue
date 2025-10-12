@@ -16,7 +16,38 @@
                 />
             </UContainer>
             <UContainer class="lg:col-span-2">
-                <NuxtImg src="/accountImage.png" class="rounded-[2vw]" />
+                <NuxtImg
+                    src="/accountImage.png"
+                    class="rounded-[2vw] w-6xl h-96"
+                />
+                <UContainer>
+                    <UTabs
+                        :items="items"
+                        variant="pill"
+                        size="md"
+                        class="gap-4 w-full"
+                    >
+                        <template #rejointe>
+                            <UContainer fluid class="m-8"
+                                >{{ userJoinedGames }}
+                            </UContainer>
+                        </template>
+                        <template #créée>
+                            <UContainer fluid class="m-8">
+                                <UBlogPosts orientation="vertical">
+                                    <Games
+                                        v-for="game in userStore.createdGames"
+                                        :date="game.createdAt"
+                                        :title="game.name"
+                                        :description="game.description"
+                                        :link="game.roomCode"
+                                    >
+                                    </Games>
+                                </UBlogPosts>
+                            </UContainer>
+                        </template>
+                    </UTabs>
+                </UContainer>
             </UContainer>
         </UPageGrid>
     </UPage>
@@ -27,9 +58,22 @@ definePageMeta({
     middleware: "auth",
 });
 
+const items = [
+    {
+        label: "Partie rejointe",
+        slot: "rejointe" as const,
+    },
+    {
+        label: "Partie créée",
+        slot: "créée" as const,
+    },
+];
+
 const userStore = useUserStore();
 
 const userName = ref(userStore.email);
+const userCreatedGames = ref(userStore.createdGames);
+const userJoinedGames = ref(userStore.joinedGames);
 </script>
 
 <style></style>
