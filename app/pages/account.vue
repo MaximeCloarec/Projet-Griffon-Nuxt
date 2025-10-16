@@ -28,6 +28,7 @@
                         class="gap-4 w-full"
                     >
                         <template #rejointe>
+                            <JoinGame />
                             <UContainer fluid class="m-8"
                                 >{{ userJoinedGames }}
                             </UContainer>
@@ -38,7 +39,7 @@
                                     <Games
                                         v-for="game in userStore.createdGames"
                                         :date="game.createdAt"
-                                        :title="game.name"
+                                        :title="game.roomCode"
                                         :description="game.description"
                                         :link="game.roomCode"
                                     >
@@ -54,6 +55,8 @@
 </template>
 
 <script lang="ts" setup>
+const joinRoomCode = ref();
+
 definePageMeta({
     middleware: "auth",
 });
