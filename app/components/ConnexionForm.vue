@@ -59,14 +59,12 @@ const login = async () => {
                 },
             }
         );
-
         userStore.setUser(data.token, data.user);
         toast.add({
             title: "Succès",
             description: `${data.message}`,
             color: "success",
         });
-        console.log(data);
         await navigateTo("/account");
     } catch (error: any) {
         toast.add({

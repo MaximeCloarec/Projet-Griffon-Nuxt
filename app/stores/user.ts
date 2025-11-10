@@ -26,7 +26,7 @@ export const useUserStore = defineStore("user", {
         },
 
         logout() {
-            this.$reset(); // plus propre que tout réinitialiser manuellement
+            this.$reset();
         },
     },
 });

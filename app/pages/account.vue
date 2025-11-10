@@ -14,6 +14,7 @@
                     size="3xl"
                     class="items-center"
                 />
+                <UButton @click="deleteAccount">Supprimer Compte</UButton>
             </UContainer>
             <UContainer class="lg:col-span-2">
                 <NuxtImg
@@ -28,7 +29,7 @@
                         class="gap-4 w-full"
                     >
                         <template #rejointe>
-                            <JoinGame />
+                            <JoinGame :userId="userId" />
                             <UContainer fluid class="m-8"
                                 >{{ userJoinedGames }}
                             </UContainer>
@@ -74,9 +75,25 @@ const items = [
 
 const userStore = useUserStore();
 
+const userId = ref(userStore.id);
 const userName = ref(userStore.email);
 const userCreatedGames = ref(userStore.createdGames);
 const userJoinedGames = ref(userStore.joinedGames);
+
+const deleteAccount = async () => {
+    try {
+        await $fetch(`http://localhost:3001/api/users/me`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${userStore.token}`,
+            },
+        });
+        userStore.logout();
+        await navigateTo("/connexion");
+    } catch (error) {
+        console.error("Error deleting account:", error);
+    }
+};
 </script>
 
 <style></style>
