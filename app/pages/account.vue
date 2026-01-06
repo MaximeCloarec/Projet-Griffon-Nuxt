@@ -30,8 +30,11 @@
                     >
                         <template #rejointe>
                             <JoinGame :userId="userId" />
-                            <UContainer fluid class="m-8"
-                                >{{ userJoinedGames }}
+                            <UContainer fluid class="m-8">
+                                <div v-for="game in userJoinedGames" :key="game.id">
+                                    {{ game }}
+                                    <NuxtLink :to="{name: 'game-roomCode', params: {roomCode: game.roomCode}}">Go to Game</NuxtLink>
+                                </div>
                             </UContainer>
                         </template>
                         <template #créée>
@@ -46,6 +49,9 @@
                                     >
                                     </Games>
                                 </UBlogPosts>
+                                <UButton @click="createGame"
+                                    >Créer une partie</UButton
+                                >
                             </UContainer>
                         </template>
                     </UTabs>
@@ -92,6 +98,22 @@ const deleteAccount = async () => {
         await navigateTo("/connexion");
     } catch (error) {
         console.error("Error deleting account:", error);
+    }
+};
+
+const createGame = async () => {
+    try {
+        await $fetch(`http://localhost:3001/api/games/create`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${userStore.token}`,
+            },
+            body: {
+                userId: userStore.id,
+            },
+        });
+    } catch (error) {
+        console.error("Error creating game:", error);
     }
 };
 </script>

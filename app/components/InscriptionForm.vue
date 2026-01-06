@@ -94,7 +94,6 @@ async function registerUser() {
             });
         }
     } catch (error: any) {
-        // Si backend renvoie une erreur JSON, tu peux la lire
         const message = error?.data?.message || "Une erreur est survenue";
         toast.add({
             title: "Erreur",
